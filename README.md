@@ -3,6 +3,7 @@ Vim plugin manager for blinkshell
 
 Add the following to `~/Documents/.vimrc` to install:
 ```
+let data_dir = expand('~/Documents/.vim')
 if empty(glob(data_dir . '/autoload/blink.vim'))
     call mkdir(expand(data_dir."/autoload"),"p")
     silent execute '!curl -fLo ' . data_dir . '/autoload/blink.vim --create-dirs  https://raw.githubusercontent.com/rrgeorge/vim-blink/master/blink.vim'
