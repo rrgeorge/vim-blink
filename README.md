@@ -3,7 +3,7 @@ Vim plugin manager for blinkshell.
 Most vim plugin managers depend on the `git` cli, which is not available on blink. This plugin manager uses `curl` to download and install plugins from GitHub instead of `git`. 
 
 Add the following to `~/Documents/.vimrc` to install:
-```
+```vim
 let data_dir = expand('~/Documents/.vim')
 if empty(glob(data_dir . '/autoload/blink.vim'))
     call mkdir(expand(data_dir."/autoload"),"p")
@@ -25,7 +25,7 @@ This is the `~/Documents/.vimrc` I am using on my devices. You can download it d
 `curl -fLo ~/Documents/.vimrc https://raw.githubusercontent.com/rrgeorge/vim-blink/master/vimrc`  
 
 The contents:
-```
+```vim
 set termguicolors   " enables colors
 set encoding=utf8
 set background=dark
