@@ -1,5 +1,6 @@
 # vim-blink
-Vim plugin manager for blinkshell
+Vim plugin manager for blinkshell. 
+Most vim plugin managers depend on the `git` cli, which is not available on blink. This plugin manager uses `curl` to download and install plugins from GitHub instead of `git`. 
 
 Add the following to `~/Documents/.vimrc` to install:
 ```
@@ -11,7 +12,10 @@ endif
 call blink#init()
 ```
 
-You can add `BlinkInstall` to install a plugins, like:
+You can add `Blink` to activate plugins (and install as needed), like:
+Blink 'vim-airline/vim-airline'
+
+To simply install without activatinging, you can use `BlinkInstall`, like:
 BlinkInstall 'vim-airline/vim-airline'
 
-Add them to your .vimrc if you want to automatically install them at startup
+To check all plugins for updates, run `:BlinkUpdate`

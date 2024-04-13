@@ -12,7 +12,7 @@ function! blink#init()
     else
         let s:blink_path = expand("~/Documents/.vim/pack/blink")
     endif
-    call mkdir(s:blink_path."/start","p")
+    call mkdir(s:blink_path."/opt","p")
 endfunction
 
 function! blink#new_window()
@@ -34,10 +34,18 @@ function! blink#new_window()
     endif
 endfunction
 
+function! blink#activate(url)
+    let pluginname = substitute(a:url,"/","_",'')
+    if (!isdirectory(s:blink_path."/opt/".pluginname))
+        call blink#install(a:url,0)
+    endif
+    exe "packadd! ".pluginname
+endfunction
+
 function! blink#install(url,update=0)
     call blink#new_window()
     let pluginname = substitute(a:url,"/","_",'')
-    if (isdirectory(s:blink_path."/start/".pluginname) && a:update==0)
+    if (isdirectory(s:blink_path."/opt/".pluginname) && a:update==0)
 	call appendbufline(s:blink_window, '$', a:url."is already installed")
         return
     elseif a:update != 0
@@ -56,8 +64,8 @@ function! blink#install(url,update=0)
     if commit is v:null
 	return
     endif
-    if filereadable(expand(s:blink_path."/start/".pluginname."/.blinkplugin.version"))
-        let current = readfile(expand(s:blink_path."/start/".pluginname."/.blinkplugin.version"))
+    if filereadable(expand(s:blink_path."/opt/".pluginname."/.blinkplugin.version"))
+        let current = readfile(expand(s:blink_path."/opt/".pluginname."/.blinkplugin.version"))
         if current[0] == commit
             "echom "The latest version of" a:url "is already installed"
 	    call appendbufline(s:blink_window, '$', "The latest version of ".a:url." is already installed")
@@ -75,7 +83,7 @@ function! blink#install(url,update=0)
 endfunction
 
 function! blink#update()
-    let plugins = glob(s:blink_path."/start/*/.blinkplugin.repo",0,1)
+    let plugins = glob(s:blink_path."/opt/*/.blinkplugin.repo",0,1)
     for plugin in plugins
         call blink#install(readfile(plugin)[0],1)
     endfor
@@ -183,8 +191,8 @@ function s:unpack(job)
     "redraw!
     "echom "Extracting plugin: ".plugin
     call setbufline(s:blink_window, '$', 'Extracting: '.plugin)
-    call mkdir(s:blink_path."/start/".name,"p")
-    let cmd = "tar xf ".s:blink_path."/".name."-".branch."-".commit.".tgz --strip-components=1 -C ".s:blink_path."/start/".name
+    call mkdir(s:blink_path."/opt/".name,"p")
+    let cmd = "tar xf ".s:blink_path."/".name."-".branch."-".commit.".tgz --strip-components=1 -C ".s:blink_path."/opt/".name
     let job = job_start(cmd, {'exit_cb': 's:Finish'})
     let a:job.job = job
 endfunction
@@ -201,8 +209,8 @@ function s:Finish(job,status)
     let branch = active_job.branch
     let commit = active_job.commit
     let name = active_job.name
-    call writefile([commit], s:blink_path."/start/".name."/.blinkplugin.version", 'b')
-    call writefile([plugin], s:blink_path."/start/".name."/.blinkplugin.repo", 'b')
+    call writefile([commit], s:blink_path."/opt/".name."/.blinkplugin.version", 'b')
+    call writefile([plugin], s:blink_path."/opt/".name."/.blinkplugin.repo", 'b')
     call delete(s:blink_path."/".name."-".branch."-".commit.".tgz")
     "echom "Installed plugin: ".plugin
     call setbufline(s:blink_window, '$', 'Installed '.plugin)
@@ -214,5 +222,6 @@ endfunction
 call blink#init()
 
 command! -bang -nargs=+ BlinkInstall call blink#install(<args>,<bang>0)
+command! -nargs=1 Blink call blink#activate(<args>)
 command! -nargs=0 BlinkUpdate call blink#update()
 
