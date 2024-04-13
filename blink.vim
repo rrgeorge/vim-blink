@@ -1,6 +1,6 @@
-"if exists("g:loaded_blink")
-"	finish
-"endif
+if exists("g:loaded_blink")
+	finish
+endif
 let g:loaded_blink=1
 
 let s:active_jobs=get(s:,"active_jobs",[])
@@ -37,7 +37,10 @@ endfunction
 function! blink#activate(url)
     let pluginname = substitute(a:url,"/","_",'')
     if (!isdirectory(s:blink_path."/opt/".pluginname))
-        call blink#install(a:url,0)
+        let job = blink#install(a:url,0)
+        while job_status(job) == 'run'
+            sleep 5m
+        endwhile
     endif
     exe "packadd! ".pluginname
 endfunction
@@ -80,6 +83,7 @@ function! blink#install(url,update=0)
     let active_job.job = job
     let active_job.channel = job_getchannel(job)
     call add(s:active_jobs,active_job)
+    return job
 endfunction
 
 function! blink#update()
