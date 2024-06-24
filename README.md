@@ -1,10 +1,10 @@
 # vim-blink
-Vim plugin manager for blinkshell. 
-Most vim plugin managers depend on the `git` cli, which is not available on blink. This plugin manager uses `curl` to download and install plugins from GitHub instead of `git`. 
+Vim plugin manager for blinkshell.
+Most vim plugin managers depend on the `git` cli, which is not available on blink. This plugin manager uses `curl` to download and install plugins from GitHub instead of `git`.
 
-Add the following to `~/Documents/.vimrc` to install:
+Add the following to `~/.vimrc` to install:
 ```vim
-let data_dir = expand('~/Documents/.vim')
+let data_dir = expand('~/.vim')
 if empty(glob(data_dir . '/autoload/blink.vim'))
     call mkdir(expand(data_dir."/autoload"),"p")
     silent execute '!curl -fLo ' . data_dir . '/autoload/blink.vim --create-dirs  https://raw.githubusercontent.com/rrgeorge/vim-blink/master/blink.vim'
@@ -21,8 +21,8 @@ BlinkInstall 'vim-airline/vim-airline'
 To check all plugins for updates, run `:BlinkUpdate`
 
 ## My vimrc
-This is the `~/Documents/.vimrc` I am using on my devices. You can download it directly if you like, by running:
-`curl -fLo ~/Documents/.vimrc https://raw.githubusercontent.com/rrgeorge/vim-blink/master/vimrc`  
+This is the `~/.vimrc` I am using on my devices. You can download it directly if you like, by running:
+`curl -fLo ~/.vimrc https://raw.githubusercontent.com/rrgeorge/vim-blink/master/vimrc`
 
 The contents:
 ```vim
@@ -32,7 +32,7 @@ set background=dark
 set backspace=2
 syntax on
 
-let data_dir = expand('~/Documents/.vim')
+let data_dir = expand('~/.vim')
 if empty(glob(data_dir . '/autoload/blink.vim'))
     call mkdir(expand(data_dir."/autoload"),"p")
     silent execute '!curl -fLo ' . data_dir . '/autoload/blink.vim --create-dirs  https://raw.githubusercontent.com/rrgeorge/vim-blink/master/blink.vim'

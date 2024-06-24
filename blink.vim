@@ -10,7 +10,7 @@ function! blink#init()
     if exists("g:blink_path")
         let s:blink_path = expand(g:blink_path)
     else
-        let s:blink_path = expand("~/Documents/.vim/pack/blink")
+        let s:blink_path = expand("~/.vim/pack/blink")
     endif
     call mkdir(s:blink_path."/opt","p")
 endfunction
