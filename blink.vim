@@ -49,7 +49,7 @@ function! blink#install(url,update=0)
     call blink#new_window()
     let pluginname = substitute(a:url,"/","_",'')
     if (isdirectory(s:blink_path."/opt/".pluginname) && a:update==0)
-	call appendbufline(s:blink_window, '$', a:url."is already installed")
+	call appendbufline(s:blink_window, '$', a:url." is already installed")
         return
     elseif a:update != 0
     	"echom "Checking" a:url "for updates..."
