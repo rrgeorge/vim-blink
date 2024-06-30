@@ -7,7 +7,7 @@ Add the following to `~/.vimrc` to install:
 let data_dir = expand('~/.vim')
 if empty(glob(data_dir . '/autoload/blink.vim'))
     call mkdir(expand(data_dir."/autoload"),"p")
-    silent execute '!curl -fLo ' . data_dir . '/autoload/blink.vim --create-dirs  https://raw.githubusercontent.com/rrgeorge/vim-blink/master/blink.vim'
+    silent execute '!curl -fLo ' . data_dir . '/autoload/blink.vim --create-dirs  https://raw.githubusercontent.com/rrgeorge/vim-blink/main/blink.vim'
 endif
 call blink#init()
 ```
@@ -15,7 +15,7 @@ call blink#init()
 You can add `Blink` to activate plugins (and install as needed), like:
 `Blink 'vim-airline/vim-airline'`
 
-To simply install without activatinging, you can use `BlinkInstall`, like:
+To simply install without activating, you can use `BlinkInstall`, like:
 `BlinkInstall 'vim-airline/vim-airline'`
 
 To check all plugins for updates, run `:BlinkUpdate`
