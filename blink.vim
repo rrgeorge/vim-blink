@@ -77,7 +77,7 @@ function! blink#install(url,update=0)
     endif
     let url = "https://github.com/".a:url."/archive/".branch.".tar.gz"
     call appendbufline(s:blink_window, '$', "Downloading ".a:url."/archive/".branch.".tar.gz...")
-    let cmd = "curl -fLo ".s:blink_path."/".pluginname."-".branch."-".commit.".tgz ".url
+    let cmd = ["curl", "-fLo", s:blink_path."/".pluginname."-".branch."-".commit.".tgz", url]
     let active_job = { 'plugin': a:url, 'branch': branch, 'commit': commit, 'name': pluginname }
     let job = job_start(cmd, {'err_cb': 's:curlProgress','exit_cb': 's:Done', 'err_mode': 'raw'})
     let active_job.job = job
@@ -95,7 +95,7 @@ endfunction
 
 function! blink#ghBranch(url)
     let url = "https://github.com/".a:url."/refs?type=branch"
-    let cmd = "curl -s -H 'accept: application/json' ".url
+    let cmd = ["curl", "-sL", "-H", "accept: application/json", url]
     let job = job_start(cmd)
     while job_status(job) == 'run'
     endwhile
@@ -116,7 +116,7 @@ endfunction
 
 function! blink#ghLastCommit(url, branch)
     let url = "https://github.com/".a:url."/latest-commit/".a:branch
-    let cmd = "curl -s -H 'accept: application/json' ".url
+    let cmd = ["curl", "-sL", "-H", "accept: application/json", url]
     let job = job_start(cmd)
     while job_status(job) == 'run'
     endwhile
@@ -196,7 +196,7 @@ function s:unpack(job)
     "echom "Extracting plugin: ".plugin
     call setbufline(s:blink_window, '$', 'Extracting: '.plugin)
     call mkdir(s:blink_path."/opt/".name,"p")
-    let cmd = "tar xf ".s:blink_path."/".name."-".branch."-".commit.".tgz --strip-components=1 -C ".s:blink_path."/opt/".name
+    let cmd = ["tar", "xf", s:blink_path."/".name."-".branch."-".commit.".tgz", "--strip-components=1", "-C", s:blink_path."/opt/".name]
     let job = job_start(cmd, {'exit_cb': 's:Finish'})
     let a:job.job = job
 endfunction
